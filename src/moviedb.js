@@ -71,17 +71,18 @@ program
 
     if (programOptions.reviews) {
       const { data } = await moviesApi.getMovieReviews(programOptions);
-      // console.log(data);
       if (data) movies.renderMovieReviewsData(data);
+
+      spinner.succeed(`Movie reviews data loaded.`);
     }
 
     if (!programOptions.reviews) {
       const { data } = await moviesApi.getMovie(programOptions);
-      // console.log(data);
       if (data) movies.renderMovieData(data);
+
+      spinner.succeed(`Movie data loaded.`);
     }
 
-    spinner.succeed(`Movie reviews data loaded.`);
     spinner.stop();
   });
 

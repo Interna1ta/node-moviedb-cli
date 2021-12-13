@@ -1,4 +1,5 @@
 const http = require("../services/httpService");
+const asyncMethod = require('../middleware/async');
 
 const getMovies = async (programOptions) => {
   let path = "movie/";
