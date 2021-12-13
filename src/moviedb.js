@@ -10,7 +10,7 @@ const personsApi = require("./api/persons");
 const moviesApi = require("./api/movies");
 
 const persons = require("./render/persons");
-// const movies = require("./render/movies");
+const movies = require("./render/movies");
 
 program
   .command("get-persons")
@@ -47,18 +47,41 @@ program
 program
   .command("get-movies")
   .description("Make a network request to fetch movies")
-  .action(async function handleAction() {
-    const { data: { results } } = await moviesApi.getMovies();
-    console.log(results);
+  .requiredOption("--page <number>", "The page of movies data results to fetch")
+  .option("-p, --popular", "Fetch the popular movies")
+  .option("-n, --now-playing", "Fetch the movies that are playing now")
+  .action(async function handleAction(programOptions) {
+    let spinner = ora(`Fetching the movies data...`).start();
+
+    const { data } = await moviesApi.getMovies(programOptions);
+
+    movies.renderMoviesData(data);
+
+    spinner.succeed(`Popular Movies data loaded.`);
+    spinner.stop();
   });
 
 program
   .command("get-movie")
   .description("Make a network request to fetch the data of a single movie")
-  .action(async function handleAction() {
+  .option("-r, --reviews", "Fetch the reviews of the movie")
+  .requiredOption("-i, --id <movieID>", "The id of the movie")
+  .action(async function handleAction(programOptions) {
+    let spinner = ora(`Fetching the movie data...`).start();
 
-    const { data } = await moviesApi.getMovie(movieId);
-    console.log(data);
+    if (programOptions.reviews) {
+      const { data } = await moviesApi.getMovieReviews(programOptions);
+      // console.log(data);
+      movies.renderMovieReviewsData(data);
+    }
+
+    if (!programOptions.reviews) {
+      const { data } = await moviesApi.getMovie(programOptions);
+      movies.renderMovieData(data);
+    }
+
+    spinner.succeed(`Movie reviews data loaded.`);
+    spinner.stop();
   });
 
 // error on unknown commands
