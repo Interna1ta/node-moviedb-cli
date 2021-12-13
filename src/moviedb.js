@@ -1,15 +1,26 @@
 #!/usr/bin/env node
 
+require('dotenv').config();
+
 const { Command } = require("commander");
 
 const program = new Command();
 program.version("0.0.1");
 
+import ora from 'ora';
+
+const spinner = ora('Loading unicorns').start();
+
+setTimeout(() => {
+	spinner.color = 'yellow';
+	spinner.text = 'Loading rainbows';
+}, 1000);
+
 program
   .command("get-persons")
   .description("Make a network request to fetch most popular persons")
   .action(function handleAction() {
-    console.log("hello-world");
+    
   });
 
 program
