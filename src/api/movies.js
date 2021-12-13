@@ -23,9 +23,9 @@ const getMovies = async (programOptions) => {
 }
 
 const getMovie = async (programOptions) => {
-  const apiKey = process.env.THE_MOVIE_DB_API_KEY;
   const movieId = programOptions.id;
   const path = `movie/${movieId}`;
+  const apiKey = process.env.THE_MOVIE_DB_API_KEY;
   const language = programOptions.language | "en-US";
 
   try {

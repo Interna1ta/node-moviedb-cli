@@ -72,12 +72,13 @@ program
     if (programOptions.reviews) {
       const { data } = await moviesApi.getMovieReviews(programOptions);
       // console.log(data);
-      movies.renderMovieReviewsData(data);
+      if (data) movies.renderMovieReviewsData(data);
     }
 
     if (!programOptions.reviews) {
       const { data } = await moviesApi.getMovie(programOptions);
-      movies.renderMovieData(data);
+      // console.log(data);
+      if (data) movies.renderMovieData(data);
     }
 
     spinner.succeed(`Movie reviews data loaded.`);
