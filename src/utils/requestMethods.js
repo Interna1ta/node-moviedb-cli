@@ -24,7 +24,7 @@ function connectApi(page) {
         });
         res.on("end", () => {
             let obj = JSON.parse(data);
-            console.log(obj);
+            // console.log(obj);
             testRender.renderData(page, obj)
         })
         spinner.succeed("completed")
@@ -32,8 +32,6 @@ function connectApi(page) {
     req.end()
 
 }
-
-
 
 
 function getPerson(id) {

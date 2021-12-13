@@ -31,7 +31,7 @@ program
         getPerson(options.id);
     });
 
-program.parse(process.argv);
+// program.parse(process.argv); si ho poso s'em printa x2?
 
 program
   .command("get-movies")
