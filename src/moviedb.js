@@ -1,34 +1,37 @@
 #!/usr/bin/env node
-
-require('dotenv').config();
-
+//-----------------------------------requires--------------------------------------------------------
 const { Command } = require("commander");
-
+const { connectApi } = require("../src/utils/requestMethods");
+const { getPerson } = require("../src/utils/requestMethods");
+//----------------------------------- ########--------------------------------------------------------
 const program = new Command();
-program.version("0.0.1");
-
-import ora from 'ora';
-
-const spinner = ora('Loading unicorns').start();
-
-setTimeout(() => {
-	spinner.color = 'yellow';
-	spinner.text = 'Loading rainbows';
-}, 1000);
 
 program
-  .command("get-persons")
-  .description("Make a network request to fetch most popular persons")
-  .action(function handleAction() {
-    
-  });
+    .version("0.0.1")
+    .description("moviedb-cli")
 
 program
-  .command("get-person")
-  .description("Make a network request to fetch the data of a single person")
-  .action(function handleAction() {
-    console.log("hello-world");
-  });
+    .command("get-persons <page>")
+    .requiredOption('-p, --popular', 'Fetch the popular persons')
+    .requiredOption('--page', 'Fetch the popular persons')
+    .description("Make a network request to fetch most popular persons")
+    .action((page) => {
+        connectApi(page)
+    });
+
+program
+
+    .command("get-person")
+
+    .description("Make a network request to fetch the data of a single person")
+
+    .requiredOption("-i, --id <id>", "The id of the person")
+
+    .action((options) => {
+        getPerson(options.id);
+    });
+
+program.parse(process.argv);
 
 program
   .command("get-movies")
