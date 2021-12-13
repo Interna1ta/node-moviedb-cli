@@ -1,7 +1,4 @@
 const http = require("../services/httpService");
-const dotenv = require("dotenv");
-
-dotenv.config();
 
 const getMovies = async () => {
   const apiKey = process.env.THE_MOVIE_DB_API_KEY;
@@ -10,7 +7,13 @@ const getMovies = async () => {
   const language = "en-US";
 
   try {
-    return await http.get(`https://api.themoviedb.org/3/${path}?api_key=${apiKey}&language=${language}&page=${page}`)
+    return await http.get(`https://api.themoviedb.org/3/${path}`, {
+      params: {
+        api_key: apiKey,
+        language: language,
+        page: page
+      }
+    })
   } catch (error) {
     console.error(error)
   }
